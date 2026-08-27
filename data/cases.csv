@@ -1,0 +1,9 @@
+case_id,issue_type,symptom,topology_note,show_outputs,expected_fault,osi_layer,concept_tag,severity
+C001,VLAN,"PC cannot reach server in another VLAN","PC is in VLAN 10 and server is in VLAN 30","show ip route: destination network missing","Inter-VLAN routing problem","Layer 3","inter-vlan-routing","High"
+C002,VLAN,"PC cannot communicate with another PC","PC port is assigned to VLAN 1 instead of VLAN 10","show vlan brief: port appears in VLAN 1","Incorrect VLAN assignment","Layer 2","vlan","Medium"
+C003,VLAN,"VLAN 30 hosts cannot communicate across switches","VLAN 30 exists on both switches","show interfaces trunk: VLAN 30 missing from trunk","VLAN missing from trunk","Layer 2","trunk","High"
+C004,Gateway,"PC can communicate locally but not with remote networks","PC belongs to 192.168.10.0/24","Default gateway configured as 192.168.10.254 instead of 192.168.10.1","Wrong default gateway","Layer 3","gateway","High"
+C005,DHCP,"PC receives 169.254.x.x address","DHCP server is on another subnet","show running-config: no ip helper-address","DHCP relay missing","Layer 3","dhcp","High"
+C006,Interface,"PC cannot communicate with switch","Connected switch interface is disabled","show interfaces: administratively down","Interface is administratively down","Layer 1/2","interface","High"
+C007,Routing,"Remote network cannot be reached","Router should have a route to 10.20.0.0/24","show ip route: route missing","Missing routing entry","Layer 3","routing","High"
+C008,DHCP,"Multiple PCs cannot obtain IP addresses","Clients depend on centralized DHCP server","show ip dhcp binding: no active bindings","DHCP configuration problem","Layer 3","dhcp","High"

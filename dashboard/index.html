@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NetSage AI | Network Troubleshooting</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: linear-gradient(
+                135deg,
+                #111827,
+                #1e3a8a
+            );
+
+            color: white;
+            padding: 30px 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+
+        .header-content {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+
+        header h1 {
+            font-size: 32px;
+            margin: 0;
+        }
+
+
+        header p {
+            margin-top: 8px;
+            color: #dbeafe;
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+            max-width: 1150px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+
+        /* =========================
+           STATUS BAR
+        ========================= */
+
+        .status-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+        }
+
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px #dcfce7;
+        }
+
+
+        .status-text {
+            color: #166534;
+        }
+
+
+        .case-count {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           GRID
+        ========================= */
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+            border: 1px solid #e5e7eb;
+        }
+
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+
+        .card-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+
+        .card h2 {
+            font-size: 21px;
+            color: #111827;
+        }
+
+
+        .card-subtitle {
+            color: #6b7280;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 18px 0 8px;
+            color: #374151;
+        }
+
+
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            background: #fff;
+            color: #1f2937;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px #dbeafe;
+        }
+
+
+        select {
+            cursor: pointer;
+        }
+
+
+        textarea {
+            min-height: 125px;
+            resize: vertical;
+            font-family: Consolas, monospace;
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .primary-btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+
+        .primary-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+
+        .primary-btn:disabled {
+            background: #93c5fd;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+            color: #2563eb;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+
+        .loading::before {
+            content: "●";
+            display: inline-block;
+            margin-right: 8px;
+            animation: pulse 1s infinite;
+        }
+
+
+        @keyframes pulse {
+
+            0% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.3;
+            }
+
+        }
+
+
+        .error {
+            color: #dc2626;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        .result-box {
+            display: none;
+        }
+
+
+        .result-header {
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+
+        .result-header-title {
+            color: #1e40af;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+
+        .root-cause {
+            margin-top: 7px;
+            font-size: 19px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+
+        .result-row {
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .result-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #dbeafe;
+            color: #1e40af;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+
+        ul {
+            padding-left: 20px;
+        }
+
+
+        li {
+            margin-bottom: 7px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+
+        .command-box {
+            background: #111827;
+            color: #e5e7eb;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            font-size: 13px;
+        }
+
+
+        .fix-box {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 13px 15px;
+            border-radius: 7px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           HUMAN REVIEW
+        ========================= */
+
+        .review-section {
+            margin-top: 20px;
+            padding-top: 22px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+
+        .review-title {
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+
+        .review-description {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+
+        .review-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+
+        .review-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+
+        .accept-btn {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+
+        .accept-btn:hover {
+            background: #bbf7d0;
+        }
+
+
+        .reject-btn {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+
+        .reject-btn:hover {
+            background: #fecaca;
+        }
+
+
+        .review-message {
+            margin-top: 12px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           EMPTY RESULT
+        ========================= */
+
+        .empty-result {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+
+        .empty-result h3 {
+            color: #6b7280;
+            margin-bottom: 6px;
+        }
+
+
+        .empty-result p {
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 25px 25px;
+            }
+
+            .status-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .container {
+                padding: 0 12px;
+                margin-top: 20px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            .review-buttons {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="header-content">
+
+        <div class="brand">
+
+            <div class="logo">
+                🌐
+            </div>
+
+            <div>
+
+                <h1>NetSage AI</h1>
+
+                <p>
+                    AI-Assisted Network Troubleshooting & Diagnosis
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="container">
+
+
+    <!-- STATUS -->
+
+    <div class="status-bar">
+
+        <div class="status-left">
+
+            <span class="status-dot"></span>
+
+            <span class="status-text">
+                NetSage AI Backend Online
+            </span>
+
+        </div>
+
+        <div
+            id="caseCount"
+            class="case-count"
+        >
+            Loading network cases...
+        </div>
+
+    </div>
+
+
+
+    <div class="grid">
+
+
+        <!-- =========================
+             INPUT CARD
+        ========================= -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div class="card-icon">
+                    🔧
+                </div>
+
+                <div>
+
+                    <h2>Network Problem</h2>
+
+                    <div class="card-subtitle">
+                        Provide the network issue and available evidence
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <label for="caseSelect">
+                Select a Network Case
+            </label>
+
+
+            <select
+                id="caseSelect"
+                onchange="loadCase()"
+            >
+
+                <option value="">
+                    -- Select a Case --
+                </option>
+
+            </select>
+
+
+
+            <label for="symptom">
+                Network Symptom
+            </label>
+
+
+            <textarea
+                id="symptom"
+                placeholder="Example: PC receives an IP address but cannot reach the server."
+            ></textarea>
+
+
+
+            <label for="evidence">
+                Packet Tracer / Show Command Evidence
+            </label>
+
+
+            <textarea
+                id="evidence"
+                placeholder="Paste commands and outputs here.
+
+Example:
+
+show ip route
+show vlan brief
+show interfaces trunk"
+            ></textarea>
+
+
+
+            <button
+                id="diagnoseButton"
+                class="primary-btn"
+                onclick="diagnose()"
+            >
+
+                🔍 Diagnose Network
+
+            </button>
+
+
+
+            <div
+                id="loading"
+                class="loading"
+            >
+                Analyzing network evidence...
+            </div>
+
+
+            <div
+                id="errorMessage"
+                class="error"
+            ></div>
+
+        </div>
+
+
+
+        <!-- =========================
+             RESULT CARD
+        ========================= -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div class="card-icon">
+                    🧠
+                </div>
+
+                <div>
+
+                    <h2>Diagnosis Result</h2>
+
+                    <div class="card-subtitle">
+                        AI-assisted network analysis
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- EMPTY STATE -->
+
+            <div
+                id="emptyResult"
+                class="empty-result"
+            >
+
+                <div class="empty-icon">
+                    🖥️
+                </div>
+
+                <h3>
+                    No Diagnosis Yet
+                </h3>
+
+                <p>
+                    Select a network case and click
+                    "Diagnose Network".
+                </p>
+
+            </div>
+
+
+
+            <!-- RESULT -->
+
+            <div
+                id="result"
+                class="result-box"
+            >
+
+
+                <!-- ROOT CAUSE -->
+
+                <div class="result-header">
+
+                    <div class="result-header-title">
+                        Root Cause
+                    </div>
+
+                    <div
+                        id="rootCause"
+                        class="root-cause"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+
+                <!-- OSI -->
+
+                <div class="result-row">
+
+                    <div class="result-title">
+                        OSI Layer
+                    </div>
+
+                    <div id="osiLayer">
+                        -
+                    </div>
+
+                </div>
+
+
+
+                <!-- CONFIDENCE -->
+
+                <div class="result-row">
+
+                    <div class="result-title">
+                        Confidence
+                    </div>
+
+                    <div id="confidence">
+                        -
+                    </div>
+
+                </div>
+
+
+
+                <!-- EVIDENCE -->
+
+                <div class="result-row">
+
+                    <div class="result-title">
+                        Evidence
+                    </div>
+
+                    <ul id="evidenceList"></ul>
+
+                </div>
+
+
+
+                <!-- NEXT COMMAND -->
+
+                <div class="result-row">
+
+                    <div class="result-title">
+                        Recommended Next Command
+                    </div>
+
+                    <ul id="commandsList"></ul>
+
+                </div>
+
+
+
+                <!-- FIX -->
+
+                <div class="result-row">
+
+                    <div class="result-title">
+                        Suggested Fix
+                    </div>
+
+                    <ul id="fixList"></ul>
+
+                </div>
+
+
+
+                <!-- HUMAN REVIEW -->
+
+                <div class="review-section">
+
+                    <div class="review-title">
+                        👤 Human Review
+                    </div>
+
+                    <div class="review-description">
+                        Review the AI diagnosis and provide feedback.
+                    </div>
+
+
+                    <div class="review-buttons">
+
+                        <button
+                            class="review-btn accept-btn"
+                            onclick="submitReview('Accepted')"
+                        >
+                            ✅ Accept Diagnosis
+                        </button>
+
+
+                        <button
+                            class="review-btn reject-btn"
+                            onclick="submitReview('Rejected')"
+                        >
+                            ❌ Reject Diagnosis
+                        </button>
+
+                    </div>
+
+
+
+                    <label for="correction">
+                        Corrected Diagnosis
+                    </label>
+
+
+                    <textarea
+                        id="correction"
+                        placeholder="If the diagnosis is incorrect, enter the corrected diagnosis here..."
+                    ></textarea>
+
+
+
+                    <label for="comment">
+                        Reviewer Comment
+                    </label>
+
+
+                    <textarea
+                        id="comment"
+                        placeholder="Optional reviewer comment..."
+                    ></textarea>
+
+
+
+                    <div
+                        id="reviewMessage"
+                        class="review-message"
+                    ></div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<footer>
+
+    NetSage AI • AI-Assisted Network Troubleshooting System
+
+</footer>
+
+
+
+<script>
+
+
+/* =========================================
+   GLOBAL DATA
+========================================= */
+
+let networkCases = [];
+
+
+
+/* =========================================
+   LOAD CASES
+========================================= */
+
+async function loadCases() {
+
+    const select =
+        document.getElementById("caseSelect");
+
+    const caseCount =
+        document.getElementById("caseCount");
+
+
+    try {
+
+        const response =
+            await fetch("/cases");
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load cases"
+            );
+
+        }
+
+
+        networkCases =
+            await response.json();
+
+
+        select.innerHTML = `
+            <option value="">
+                -- Select a Case --
+            </option>
+        `;
+
+
+        networkCases.forEach(networkCase => {
+
+            const option =
+                document.createElement("option");
+
+
+            option.value =
+                networkCase.case_id;
+
+
+            option.textContent =
+                networkCase.case_id +
+                " - " +
+                (
+                    networkCase.issue_type ||
+                    "Network Issue"
+                );
+
+
+            select.appendChild(option);
+
+        });
+
+
+        caseCount.textContent =
+            networkCases.length +
+            " network cases available";
+
+    }
+
+
+    catch (error) {
+
+        console.error(error);
+
+
+        caseCount.textContent =
+            "Unable to load cases";
+
+
+        document.getElementById(
+            "errorMessage"
+        ).textContent =
+            "Unable to load network cases from backend.";
+
+    }
+
+}
+
+
+
+/* =========================================
+   LOAD SELECTED CASE
+========================================= */
+
+function loadCase() {
+
+    const selected =
+        document.getElementById(
+            "caseSelect"
+        ).value;
+
+
+    if (!selected) {
+
+        document.getElementById(
+            "symptom"
+        ).value = "";
+
+
+        document.getElementById(
+            "evidence"
+        ).value = "";
+
+
+        return;
+
+    }
+
+
+    const networkCase =
+        networkCases.find(
+            item =>
+                String(item.case_id) ===
+                String(selected)
+        );
+
+
+    if (!networkCase) {
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "symptom"
+    ).value =
+        networkCase.symptom || "";
+
+
+    document.getElementById(
+        "evidence"
+    ).value =
+        networkCase.show_outputs || "";
+
+}
+
+
+
+/* =========================================
+   DIAGNOSE
+========================================= */
+
+async function diagnose() {
+
+
+    const symptom =
+        document.getElementById(
+            "symptom"
+        ).value.trim();
+
+
+    const evidence =
+        document.getElementById(
+            "evidence"
+        ).value.trim();
+
+
+    const selectedCase =
+        document.getElementById(
+            "caseSelect"
+        ).value;
+
+
+    const errorMessage =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    const loading =
+        document.getElementById(
+            "loading"
+        );
+
+
+    const button =
+        document.getElementById(
+            "diagnoseButton"
+        );
+
+
+    errorMessage.textContent = "";
+
+
+    if (!symptom) {
+
+        alert(
+            "Please enter the network symptom."
+        );
+
+        return;
+
+    }
+
+
+    loading.style.display =
+        "block";
+
+
+    button.disabled = true;
+
+
+    document.getElementById(
+        "result"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "emptyResult"
+    ).style.display =
+        "none";
+
+
+    try {
+
+
+        const selectedNetworkCase =
+            networkCases.find(
+                item =>
+                    String(item.case_id) ===
+                    String(selectedCase)
+            );
+
+
+        const response =
+            await fetch(
+                "/diagnose",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        case_id:
+                            selectedCase ||
+                            "CUSTOM",
+
+                        issue_type:
+                            selectedNetworkCase
+                                ? selectedNetworkCase.issue_type
+                                : "Network",
+
+                        symptom:
+                            symptom,
+
+                        topology_note:
+                            selectedNetworkCase
+                                ? (
+                                    selectedNetworkCase.topology_note ||
+                                    ""
+                                )
+                                : "",
+
+                        show_outputs:
+                            evidence
+
+                    })
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Diagnosis request failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        displayResult(data);
+
+    }
+
+
+    catch (error) {
+
+        console.error(error);
+
+
+        errorMessage.textContent =
+            "Unable to connect to NetSage AI backend.";
+
+
+        document.getElementById(
+            "emptyResult"
+        ).style.display =
+            "block";
+
+    }
+
+
+    finally {
+
+        loading.style.display =
+            "none";
+
+
+        button.disabled =
+            false;
+
+    }
+
+}
+
+
+
+/* =========================================
+   DISPLAY RESULT
+========================================= */
+
+function displayResult(data) {
+
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    const emptyResult =
+        document.getElementById(
+            "emptyResult"
+        );
+
+
+    const findings =
+        data.rule_checker;
+
+
+    result.style.display =
+        "block";
+
+
+    emptyResult.style.display =
+        "none";
+
+
+    const evidenceList =
+        document.getElementById(
+            "evidenceList"
+        );
+
+
+    const commandsList =
+        document.getElementById(
+            "commandsList"
+        );
+
+
+    const fixList =
+        document.getElementById(
+            "fixList"
+        );
+
+
+    evidenceList.innerHTML =
+        "";
+
+
+    commandsList.innerHTML =
+        "";
+
+
+    fixList.innerHTML =
+        "";
+
+
+    /* =========================
+       NO MATCH
+    ========================= */
+
+    if (
+        !findings ||
+        !Array.isArray(findings) ||
+        findings.length === 0
+    ) {
+
+
+        document.getElementById(
+            "rootCause"
+        ).textContent =
+            "No matching rule found. More evidence is required.";
+
+
+        document.getElementById(
+            "osiLayer"
+        ).textContent =
+            "Unknown";
+
+
+        document.getElementById(
+            "confidence"
+        ).innerHTML =
+            `<span class="badge">Low</span>`;
+
+
+        const evidenceItem =
+            document.createElement(
+                "li"
+            );
+
+
+        evidenceItem.textContent =
+            "The available evidence does not match a known troubleshooting rule.";
+
+
+        evidenceList.appendChild(
+            evidenceItem
+        );
+
+
+        const commandItem =
+            document.createElement(
+                "li"
+            );
+
+
+        commandItem.innerHTML =
+            `<div class="command-box">
+                Collect additional show command output.
+            </div>`;
+
+
+        commandsList.appendChild(
+            commandItem
+        );
+
+
+        const fixItem =
+            document.createElement(
+                "li"
+            );
+
+
+        fixItem.innerHTML =
+            `<div class="fix-box">
+                Verify the network configuration before applying changes.
+            </div>`;
+
+
+        fixList.appendChild(
+            fixItem
+        );
+
+
+        return;
+
+    }
+
+
+
+    /* =========================
+       BEST MATCH
+    ========================= */
+
+    const first =
+        findings[0];
+
+
+    document.getElementById(
+        "rootCause"
+    ).textContent =
+        first.problem ||
+        "Network configuration issue detected.";
+
+
+    document.getElementById(
+        "osiLayer"
+    ).innerHTML =
+        `<span class="badge">
+            ${first.layer || "Unknown"}
+        </span>`;
+
+
+    document.getElementById(
+        "confidence"
+    ).innerHTML =
+        `<span class="badge">
+            ${first.confidence || "Medium"}
+        </span>`;
+
+
+
+    /* =========================
+       FINDINGS
+    ========================= */
+
+    findings.forEach(item => {
+
+
+        const evidenceItem =
+            document.createElement(
+                "li"
+            );
+
+
+        evidenceItem.textContent =
+            "Rule matched: " +
+            (
+                item.problem ||
+                "Network issue"
+            );
+
+
+        evidenceList.appendChild(
+            evidenceItem
+        );
+
+
+
+        const commandItem =
+            document.createElement(
+                "li"
+            );
+
+
+        commandItem.innerHTML =
+            `<div class="command-box">
+                ${item.next_command ||
+                  item.command ||
+                  "show running-config"}
+            </div>`;
+
+
+        commandsList.appendChild(
+            commandItem
+        );
+
+
+
+        const fixItem =
+            document.createElement(
+                "li"
+            );
+
+
+        fixItem.innerHTML =
+            `<div class="fix-box">
+                ${
+                    item.fix ||
+                    "Verify the configuration and apply the approved correction."
+                }
+            </div>`;
+
+
+        fixList.appendChild(
+            fixItem
+        );
+
+    });
+
+}
+
+
+
+/* =========================================
+   HUMAN REVIEW
+========================================= */
+
+async function submitReview(
+    decision
+) {
+
+
+    const selected =
+        document.getElementById(
+            "caseSelect"
+        ).value;
+
+
+    const correction =
+        document.getElementById(
+            "correction"
+        ).value.trim();
+
+
+    const comment =
+        document.getElementById(
+            "comment"
+        ).value.trim();
+
+
+    const reviewMessage =
+        document.getElementById(
+            "reviewMessage"
+        );
+
+
+    reviewMessage.textContent =
+        "";
+
+
+    if (!selected) {
+
+        alert(
+            "Please select a network case first."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                "/review",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        case_id:
+                            selected,
+
+                        decision:
+                            decision,
+
+                        corrected_diagnosis:
+                            correction,
+
+                        comment:
+                            comment
+
+                    })
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Review request failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            data.status ===
+            "success"
+        ) {
+
+
+            reviewMessage.style.color =
+                "#166534";
+
+
+            reviewMessage.textContent =
+                "✅ Review saved successfully!";
+
+
+            document.getElementById(
+                "correction"
+            ).value =
+                "";
+
+
+            document.getElementById(
+                "comment"
+            ).value =
+                "";
+
+        }
+
+
+        else {
+
+            reviewMessage.style.color =
+                "#991b1b";
+
+
+            reviewMessage.textContent =
+                "Unable to save the review.";
+
+        }
+
+    }
+
+
+    catch (error) {
+
+        console.error(error);
+
+
+        reviewMessage.style.color =
+            "#991b1b";
+
+
+        reviewMessage.textContent =
+            "Unable to connect to the review backend.";
+
+    }
+
+}
+
+
+
+/* =========================================
+   START APPLICATION
+========================================= */
+
+loadCases();
+
+
+</script>
+
+
+</body>
+
+</html>

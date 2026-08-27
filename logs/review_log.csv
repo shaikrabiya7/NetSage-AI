@@ -1,0 +1,9 @@
+C005,Accepted,    ,    
+C005,Accepted,    ,    
+C001,Accepted,,
+C001,Rejected,,
+C001,Rejected,,
+C001,Rejected,,
+C001,Rejected,"VLAN is configured correctly, but the trunk port is down.",AI diagnosis needs further verification.
+C001,Accepted,,
+C001,Accepted,,
